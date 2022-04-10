@@ -132,7 +132,7 @@ To check the status and know when the initial sync has been completed, use this 
 komodo-cli -ac_name=VRSC getinfo
 ```
 
-When it has synced up to height, the `blocks` and `longestchain` values will have the same value. Additionally, you should verify against [the explorer](https://explorer.veruscoin.io) that you are on the main chain and not on a fork. While we wait for this to happen, lets continue.
+When it has synced up to height, the `blocks` and `longestchain` will have the same value. Additionally, you should verify against [the explorer](https://explorer.veruscoin.io) that you are on the main chain and not on a fork. While we wait for this to happen, lets continue.
 
 ## Python 3.7 & Prerequisites
 

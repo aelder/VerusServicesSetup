@@ -2,12 +2,12 @@
 
 ## Server
 
-A VPS with 4GB of RAM, anything above 40GB SSD storage and 2 CPU cores is the absolute minimum requirement. Start following the guide while logged in as `root`.
+A VPS with 4GB of RAM, more than 40GB of SSD storage, and 2 CPU cores is the absolute minimum requirement. Start following the guide while logged in as `root`.
 
 
 ## Operating System
 
-This guide tailored to and tested on `Debian 9 "Stretch"`. Before starting, please install the latest updates:
+This guide is tailored to and tested on `Debian 9 "Stretch"`. Before starting, please install the latest updates:
 
 ```
 apt update
@@ -25,14 +25,14 @@ apt -y install build-essential git pkg-config libc6-dev m4 g++-multilib autoconf
 ```
 
 
-Create a useraccount for the wallet. Switch to that account.
+Create a useraccount for the wallet and switch to that account:
 
 ```
 useradd -m -d /home/veruscoin -s /bin/bash veruscoin
 su - veruscoin
 ```
 
-Now, clone the source tree and build the binaries:
+Now clone the source tree and build the binaries:
 
 ```
 git clone https://github.com/VerusCoin/VerusCoin
@@ -126,17 +126,17 @@ komodod -ac_name=VRSC -ac_algo=verushash -ac_cc=1 -ac_veruspos=50 -ac_supply=0 -
 -addnode=185.64.105.111 -daemon
 ```
 
-To check the status and know when the initial sync has been completed, issue
+To check the status and know when the initial sync has been completed, use this command:
 
 ```
 komodo-cli -ac_name=VRSC getinfo
 ```
 
-When it has synced up to height, the `blocks` and `longestchain` values will be at par. Additionally, you should verify against [the explorer](https://explorer.veruscoin.io) that you are in fact not on a fork. While we wait for this to happen, lets continue.
+When it has synced up to height, the `blocks` and `longestchain` values will have the same value. Additionally, you should verify against [the explorer](https://explorer.veruscoin.io) that you are on the main chain and not on a fork. While we wait for this to happen, lets continue.
 
 ## Python 3.7 & Prerequisites
 
-It's not exactly a 'clean' solution, but a working one. Add the `buster` packages to `/etc/apt/sources.list`: 
+It's not exactly a 'clean' solution, but it works. Add the `buster` packages to `/etc/apt/sources.list`: 
 
 ```
 deb http://ftp.debian.org/debian buster main contrib non-free
@@ -212,7 +212,7 @@ Display the logs with this command:
 journalctrl -fu electrumx.service
 ```
 
-Initial sync will take up to 2 hours to complete. Before that is done, ElectrumX will only allow RPC connections via loopback, but no external connections. To check ElectrumX status, do
+Initial sync will take up to 2 hours to complete. Before that is done, ElectrumX will only allow RPC connections via loopback, but no external connections. To check ElectrumX status, do:
 
 ```
 electrumx_rpc getinfo
@@ -221,11 +221,11 @@ electrumx_rpc getinfo
 
 ## Further considerations
 
-None of the topics below is strictly necessary, but most of them are recommended.
+None of the topics below are strictly necessary, but most of them are recommended.
 
 ### Improving SSH security
 
-If you remember the good old `rand=4; // chosen by fair dice roll` comic, you're probably doing this anyways. If you don't go google the comic, you might have missed a laugh there!
+If you remember the good old `rand=4; // chosen by fair dice roll` comic, you're probably doing this anyway. If you don't go google the comic, you might have missed a laugh there!
 
 As `root`, generate a proper `/etc/ssh/moduli` like this:
 
@@ -307,7 +307,7 @@ Make both files executable:
 chmod +x /home/veruscoin/bin/veruscoin*
 ```
 
-From now on, any time you would have to use the huge `komodod` or `komodo-cli` commands, you can just use them as shown below: 
+From now on, any time you would have needed to use the huge `komodod` or `komodo-cli` commands, you can just use them as shown below: 
 
 ```
 veruscoind -daemon 1>/dev/null 2>&1
@@ -328,7 +328,7 @@ Reboot to activate the changes. Alternatively you can make sure all running proc
 
 ### Networking optimizations
 
-If your pool is expected to receive a lot of load, consider implementing below changes, all as `root`:
+If your pool is expected to receive a lot of load, consider implementing the below changes, all as `root`:
 
 Enable the `tcp_bbr` kernel module: 
 
@@ -363,7 +363,7 @@ net.ipv4.tcp_fastopen = 3
 net.ipv4.tcp_limit_output_bytes = 131072
 ```
 
-Run below command to activate the changes, alternatively reboot the machine: 
+Run this command to activate the changes, or reboot the machine: 
 
 
 ```
@@ -372,13 +372,13 @@ sysctl -p /etc/sysctl.conf
 
 ### Change swapping behaviour
 
-If your system has a lot of RAM, you can change the swapping behaviour to only swap when necessary. Edit `/etc/sysctl.conf` to include this setting: 
+If your system has a lot of RAM you can change the swapping behaviour to only swap when necessary. Edit `/etc/sysctl.conf` to include this setting: 
 
 ```
 vm.swappiness=1
 ```
 
-The range is `1-100`. The *lower* the number, the *later* the system will start swapping stuff out. Run below command to activate the change, alternatively reboot the machine: 
+The range is `1-100`. The *lower* the number, the *later* the system will start swapping stuff out. Run this command to activate the change, or reboot the machine: 
 
 ```
 sysctl -p /etc/sysctl.conf

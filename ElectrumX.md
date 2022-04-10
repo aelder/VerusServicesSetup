@@ -1,14 +1,14 @@
 # ElectrumX for VerusCoin
 
-**NOTE:** For all downloads mentioned below you are encouraged use the [Verus Signature verification tool](https://verus.io/verify-signatures) or a local standalone Verus daemon to make sure the files are authentic and have not been tampered with. Additionally, the setup described below is in no way production ready but is meant to illustrate the general process only. **System hardening, firewalling, signature verification and other measures are outside of the scope of this guide. You will have to take care of it for yourself!**
+**NOTE:** For all downloads mentioned below you are encouraged to use the [Verus Signature verification tool](https://verus.io/verify-signatures) or a local standalone Verus daemon to make sure the files are authentic and have not been tampered with. Additionally, the setup described below is in no way production ready but is meant to illustrate the general process only. **System hardening, firewalling, signature verification, and other measures are outside of the scope of this guide. You will have to take care of these for yourself!**
 
 ## Server
 
-A VPS with 6GB of RAM, anything from 40GB SSD storage and 2 CPU cores is the absolute minimum requirement. Start following the guide while logged in as `root`.
+A VPS with 6GB of RAM, anything from 40GB SSD storage, and 2 CPU cores is the absolute minimum requirement. Start following the guide while logged in as `root`.
 
 ## Operating System
 
-This guide tailored to and tested on `Debian 10 "Buster"` but should probably also work on Debian-ish derivatives like `Devuan` or `Ubuntu` and others. This guide contains `systemd`-specific instuctions below, make sure to adapt them to your init system of choice. Before starting, please install the latest updates and prerequisites. 
+This guide is tailored to and tested on `Debian 10 "Buster"` but should probably also work on Debian-ish derivatives like `Devuan` or `Ubuntu` and others. This guide contains `systemd`-specific instructions below, make sure to adapt them to your init system of choice. Before starting, please install the latest updates and prerequisites. 
 
 ```bash
 apt update
@@ -33,7 +33,7 @@ useradd -m -d /home/verus -s /bin/bash verus
 su - verus
 ```
 
-Prepare the `~/bin` directory and add it to the users' `PATH`.
+Prepare the `~/bin` directory and add it to the `PATH` for the newly created user.
 
 ```bash
 mkdir ~/bin
@@ -63,7 +63,7 @@ fetch-params
 # ... a lot of output from wget and sadly no clear conclusion notice
 ```
 
-Use the supplied script to download and unpack the latest bootstrap into the default data directory. Watch for and fix any occuring errors until you can be sure you successfully got, checksum-verified and unpacked the latest bootstrap into the default Verus data directory location.
+Use the supplied script to download and unpack the latest bootstrap into the default data directory. Watch for and fix any occurring errors until you can be sure you successfully got, checksum-verified, and unpacked the latest bootstrap into the default Verus data directory location.
 
 ```bash
 fetch-bootstrap
@@ -130,7 +130,7 @@ A reasonably secure `rpcpassword` for the above config can be generated with the
 cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
 ```
 
-Start `verusd` and follow the `debug.log` output to make sure `verusd` syncs to current height and otherwise comes up successfully.
+Start `verusd` and follow the `debug.log` output to make sure `verusd` syncs to the current height, and otherwise comes up successfully.
 
 ```bash
 cd ~/.komodo/VRSC && verusd -daemon 1>/dev/null 2>&1
@@ -227,13 +227,13 @@ Enable autostart with this command:
 systemctl enable electrumx.service
 ```
 
-Initial sync will take up to 3 hours to complete. Before that is done, ElectrumX will only allow RPC connections via loopback, but no external connections. To check ElectrumX status, do
+Initial sync will take up to 3 hours to complete. Before that is done, ElectrumX will only allow RPC connections via loopback, but no external connections. To check ElectrumX status, do:
 
 ```
 electrumx_rpc getinfo
 ```
 
-To see info about connected clients, execute
+To see info about connected clients, execute:
 
 ```
 electrumx_rpc sessions
